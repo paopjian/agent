@@ -1,0 +1,25 @@
+ANAC 2019 
+agentgg源码研究
+
+AgentGG
+    impMap 我的 importance map
+    opponentImpMap 对手的 value map
+
+    init
+        创建 我和对手的ImpMap,
+        self_update 更新自己的importance map
+        获取最大、最小、中位数bid
+        获取reservation value，折算为importance的百分比
+    chooseAction
+        第一次,返回最大bid
+        
+ImpMap
+    扩展hashmap
+    ImpMap(UserModel userModel)
+        遍历userModel中的issue，创建空importance表格
+    self_update  更新自己的importance map
+        遍历已知bidOrder，更新importance表格中的“权和”、“次数”
+        计算权重
+        排序
+        找到最小值
+        所有值都减去最小值

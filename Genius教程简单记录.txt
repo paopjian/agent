@@ -1,0 +1,73 @@
+
+以下资料来源
+https://github.com/tdgunes/ExampleAgent/wiki
+
+使用 instanceof 来检查动作的类型
+if ( action instanceof Offer) {
+   // action is an offer
+   Offer offer = (Offer) action;
+}
+
+从 offer 中获取 bid
+if ((action instanceof Offer)) {
+    lastBid = ((Offer) action).getBid();
+}
+
+获取折扣因子
+info.getUtilitySpace().getDiscountFactor())
+获取保留值
+info.getUtilitySpace().getReservationValueUndiscounted()
+
+链接
+    根据阈值生成随机bid https://github.com/tdgunes/ExampleAgent/wiki/Generating-a-random-bid-with-a-utility-threshold
+    获取评估值 https://github.com/tdgunes/ExampleAgent/wiki/Accessing-the-evaluation-of-a-value
+关系
+    offer.bid.issue
+        Bid bid = offer.getBid();
+        Issue issue = bid.getIssues().get(0);// Getting the first issue
+        final int issueNumber = issue.getNumber();// Getting issue number
+        bid.getValue(issueNumber); //获取旧数值
+        newBid = bid.putValue(issueNumber, value);//生成新数值
+特殊类
+    issue
+        IssueReal ValueReal 
+        IssueInteger ValueInteger 
+        IssueDiscrete  ValueDiscrete 
+时间
+    2种实现方法,离散式和连续式,针对轮数和秒不同
+    src\main\java\genius\core\timeline\DiscreteTimeline.java
+    src\main\java\genius\core\timeline\ContinuesTimeline.java
+
+    TimeLineInfo timeline = getTimeLine();
+    Timeline.Type type = timeline.getType();//谈判基于轮数或秒
+    boolean isRoundBased = type == Timeline.Type.Rounds//轮数
+
+    轮数时间
+        double time = timeline.getTime(); //获取时间,是一个比例,当前时间与总时间的比,0到1
+        double totalTime = timeline.getTotalTime(); //谈判总轮数
+        double timeElapsed = timeline.getCurrentTime();//当前轮数
+        getOwnTotalRounds 自己有的轮数(int)
+        getOwnRoundsLeft 自己剩的轮数(int)
+        getRound        当前轮数(int)
+        getRoundsLeft   所有人剩的轮数(int)
+    读秒时间  
+        double time = timeline.getTime(); //获取时间,是一个比例,过去的时间与总时间的比,0到1
+        double totalTime = timeline.getTotalTime(); //谈判总秒数
+        double timeElapsed = timeline.getCurrentTime();//已经过去的时间
+
+Bid类
+    this.utilitySpace.getMinUtilityBid();//最大bid
+    this.utilitySpace.getMaxUtilityBid();//最小bid
+
+获取权重
+    AbstractUtilitySpace utilitySpace = info.getUtilitySpace();
+    AdditiveUtilitySpace additiveUtilitySpace = (AdditiveUtilitySpace) utilitySpace;
+    List<Issue> issues = additiveUtilitySpace.getDomain().getIssues();
+    for (Issue issue : issues) {
+        System.out.println(additiveUtilitySpace.getWeight(issue.getNumber()));}
+
+API
+    生成随机bid
+        protected Bid generateRandomBid(); 
+    生成新bid
+        public Bid putValue(int issueId, Value pValue)

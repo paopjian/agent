@@ -1,0 +1,44 @@
+winkyAgent代码学习
+
+init
+    utilitySize 可生成的bid总数
+    bidOrder    bid列表
+    ranklistSize bid总数
+    issueList   issue列表
+    issueSize   issue对应的数量
+    results     所有bid对应的utility
+    valueSum    issue的value总数
+    values      存储issue的value的list
+    valueCorrespond 存储values对应点和initUtility
+    features[ranklistSize][valueSum] (bid总数*项目总数) 遍历所有bid和values,utility对应了就在[i][j]上设为1
+    parameters  存储initUtility
+
+BGD
+    用算法更改valueCorrespond的数值
+
+receiveMessage
+    lastReceivedBid最新bid
+    通过bid计算utility
+    receiveBids添加bid和utility
+    更新receivehighestUtility
+
+chooseAction
+    总轮数0.7之前
+        轮数>10
+
+
+
+
+
+
+        features[bidSize][valueSize] 
+    二维矩阵,只有0和1
+    每行为bid,每列为value
+    出现过的value设为1
+results[bidSize]
+    存储Utility
+learningRate
+    0.001
+    1/valueSize
+parameter[valueSize]
+    value的系数

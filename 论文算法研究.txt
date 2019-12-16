@@ -1,0 +1,39 @@
+变量
+Minimum Offer Threshold (MOT)
+    出价阈值,固定0.6
+Agreement Value (AV)
+    每次offer后重新计算
+    每10轮,
+        计算Bids_feasible
+        集合Set_u,对手u的n个最好bid
+        集合Set_common,取交集
+        找到Bid_Best,最好的bid
+        AV=Utility(Bid_Best)*R
+Care (C)
+    关心值
+    初始0.4,每10轮增加0.4%
+Number of Bids to Consider from Opponent’s Best Bids (N)
+    用于计算AV
+    初始100,每10轮减少5直到10
+Reluctance (R)
+    与时间相关
+    初始1.1,每10轮减少0.5%
+
+初始化
+    Bids_feasible 计算所有的比MOT高的bid
+建模思想
+    对手出喜欢的offer更频繁
+    对手会更少改变更重要的选项
+选项排序
+    根据对手出价的每项的次数排名进行计算,最频繁的得1.需要先从大到小排序
+    V=(总数-排名+1)/总数
+issue权重
+    W=(出现次数/总次数)^2
+    这只是根据offer中issue的次数进行拟合的结果,不代表对手的真正权重.
+    得到后进行标准化,将各个issue比例和为1
+
+bid策略
+    初始化lastBid=1
+    在 Bids_feasible找我和对手都接受的bid,lastBid更新.找不到都接受,出自己接受的最佳bid,lastBid=1
+    
+
